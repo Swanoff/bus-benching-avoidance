@@ -10,7 +10,11 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      currentStop: 0
+      currentStop: 0,
+      totalHeadCount: 0,
+      sitting: 0,
+      standing: 0,
+      totalSeats: 40
     }
   }
 
@@ -27,19 +31,34 @@ class App extends Component {
         <div style={{ display: 'flex', justifyContent: 'center' }}>
           <div style={{ display: 'flex', justifyContent: 'center', marginTop: '4%', marginRight: '13%' }}>
             <ReactStoreIndicator style={{ position: 'absolute' }}
-              value={38}
-              maxValue={40}
+              value={this.state.sitting}
+              maxValue={this.state.totalSeats}
               stepsColors={['#3da940', '#3da940', '#3da940', '#53b83a', '#84c42b', '#f1bc00', '#ed8d00', '#d12000']}
             />
             <img src={require('./assets/seat.png')} alt='seat' height={100} width={100} style={{ marginTop: 30 }} />
           </div>
           <div style={{ display: 'flex', flexDirection: 'column', marginTop: '4%', marginLeft: '13%' }}>
             <img src={require('./assets/stand.png')} alt='standing' height={135} width={55} />
-            <span style={{ fontSize: 25, fontWeight: 'bold', color: 'orange', marginLeft: 3 }}>X <span style={{ fontSize: 35, fontWeight: '500' }}>3</span></span>
+            <span style={{ fontSize: 25, fontWeight: 'bold', color: this.getStandingCountColor(), marginLeft: 3 }}>X <span style={{ fontSize: 35, fontWeight: '500' }}>{this.state.standing}</span></span>
           </div>
         </div>
       </div>
     );
+  }
+
+  getStandingCountColor() {
+    if (this.state.standing >= 0 && this.state.standing <= 3)
+      return '#3da940'
+    else if (this.state.standing >= 4 && this.state.standing <= 7)
+      return '#53b83a'
+    else if (this.state.standing >= 8 && this.state.standing <= 11)
+      return '#84c42b'
+    else if (this.state.standing >= 12 && this.state.standing <= 15)
+      return '#f1bc00'
+    else if (this.state.standing >= 16 && this.state.standing <= 19)
+      return '#ed8d00'
+    else
+      return '#d12000'
   }
 }
 
