@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
 import ReactStoreIndicator from 'react-score-indicator';
-import { QRCode } from 'react-qr-svg';
 
 import TicketInput from './Components/Ticket/Input/TicketInput';
 
@@ -57,16 +56,8 @@ class App extends Component {
           <div style={{backgroundImage: `url(${require('./assets/ticket_left.png')})`, backgroundSize: 'cover', width: 376, height: 250, display: 'flex', justifyContent: 'center', alignItems: 'center', paddingTop: '5%', paddingLeft: '1%' }}>
             <TicketInput stops={this.state.stops} currentStop={this.state.currentStop} />
           </div>
-          <div style={{backgroundImage: `url(${require('./assets/ticket_right.png')})`, backgroundSize: 'cover', width: 166, height: 250, display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
-            {/* <img src={require('./assets/ticket_right.png')} alt='ticket_right' height={250} /> */}
-            <QRCode 
-              level='Q'
-              style={{width: 125}}
-              bgColor='#fe5d21'
-              value={JSON.stringify({
-                status: 'Not Issued'
-              })}
-            />
+          <div>
+            <img src={require('./assets/ticket_right.png')} alt='ticket_right' height={250} />
           </div>
         </div>
       </div>

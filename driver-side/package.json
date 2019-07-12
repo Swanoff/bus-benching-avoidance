@@ -6,7 +6,6 @@
     "rc-steps": "^3.4.1",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
-    "react-qr-svg": "^2.2.1",
     "react-score-indicator": "^2.1.1",
     "react-scripts": "3.0.1",
     "semantic-ui-css": "^2.4.1",
