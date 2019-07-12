@@ -42,6 +42,15 @@ class App extends Component {
             <span style={{ fontSize: 25, fontWeight: 'bold', color: this.getStandingCountColor(), marginLeft: 3 }}>X <span style={{ fontSize: 35, fontWeight: '500' }}>{this.state.standing}</span></span>
           </div>
         </div>
+
+        <div style={{display: 'flex', justifyContent: 'center', marginTop: '4%'}}>
+          <div>
+            <img src={require('./assets/ticket_left.png')} alt='ticket_left' height={200} />
+          </div>
+          <div>
+            <img src={require('./assets/ticket_right.png')} alt='ticket_right' height={200} />
+          </div>
+        </div>
       </div>
     );
   }
