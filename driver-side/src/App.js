@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import ReactStoreIndicator from 'react-score-indicator';
 import QRCode from 'qrcode.react';
-
+import { Icon } from 'semantic-ui-react';
 import TicketInput from './Components/Ticket/Input/TicketInput';
 
 import 'rc-steps/assets/index.css';
@@ -29,44 +29,56 @@ class App extends Component {
 
   render() {
     return (
-      <div style={{ margin: '5% 10%' }}>
-        <Steps current={this.state.currentStop} labelPlacement='vertical'>
-          <Step title='Stop 1' />
-          <Step title='Stop 2' />
-          <Step title='Stop 3' />
-          <Step title='Stop 4' />
-        </Steps>
+      <div style={{display: 'flex'}}>
+        <div style={{width: '60%', paddingTop: '5%'}}>
+          <Steps current={this.state.currentStop} labelPlacement='vertical'>
+            <Step title='Stop 1' />
+            <Step title='Stop 2' />
+            <Step title='Stop 3' />
+            <Step title='Stop 4' />
+          </Steps>
 
-        <div style={{ display: 'flex', justifyContent: 'center' }}>
-          <div style={{ display: 'flex', justifyContent: 'center', marginTop: '4%', marginRight: '13%' }}>
-            <img src={require('./assets/seat.png')} alt='seat' height={100} style={{ marginTop: 30 }} />
-            <ReactStoreIndicator style={{ position: 'absolute' }}
-              value={this.state.sitting}
-              maxValue={this.state.totalSeats}
-              stepsColors={['#3da940', '#3da940', '#3da940', '#53b83a', '#84c42b', '#f1bc00', '#ed8d00', '#d12000']}
-              textStyle={{paddingTop: 5}}
-            />
+          <div style={{ display: 'flex', justifyContent: 'center', marginTop: '4%' }}>
+            <div style={{ display: 'flex', justifyContent: 'center', marginTop: '4%', marginRight: '13%' }}>
+              <img src={require('./assets/seat.png')} alt='seat' height={100} style={{ marginTop: 30 }} />
+              <ReactStoreIndicator style={{ position: 'absolute' }}
+                value={this.state.sitting}
+                maxValue={this.state.totalSeats}
+                stepsColors={['#3da940', '#3da940', '#3da940', '#53b83a', '#84c42b', '#f1bc00', '#ed8d00', '#d12000']}
+                textStyle={{paddingTop: 5}}
+              />
+            </div>
+            <div style={{ display: 'flex', flexDirection: 'column', marginTop: '4%', marginLeft: '13%' }}>
+              <img src={require('./assets/stand.png')} alt='standing' height={135} style={{marginBottom: 20}} />
+              <span style={{ fontSize: 25, fontWeight: 'bold', color: this.getStandingCountColor(), marginLeft: 3 }}>X <span style={{ fontSize: 35, fontWeight: '500' }}>{this.state.standing}</span></span>
+            </div>
           </div>
-          <div style={{ display: 'flex', flexDirection: 'column', marginTop: '4%', marginLeft: '13%' }}>
-            <img src={require('./assets/stand.png')} alt='standing' height={135} style={{marginBottom: 20}} />
-            <span style={{ fontSize: 25, fontWeight: 'bold', color: this.getStandingCountColor(), marginLeft: 3 }}>X <span style={{ fontSize: 35, fontWeight: '500' }}>{this.state.standing}</span></span>
+
+          <div style={{display: 'flex', justifyContent: 'center', marginTop: '8%'}}>
+            <div style={{backgroundImage: `url(${require('./assets/ticket_left.png')})`, backgroundSize: 'cover', width: 376, height: 250, display: 'flex', justifyContent: 'center', alignItems: 'center', paddingTop: '5%', paddingLeft: '1%' }}>
+              <TicketInput stops={this.state.stops} currentStop={this.state.currentStop} />
+            </div>
+            <div style={{backgroundImage: `url(${require('./assets/ticket_right.png')})`, backgroundSize: 'cover', width: 166, height: 250, display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
+              <QRCode 
+                level='Q'
+                style={{width: 125}}
+                bgColor='#fe5d21'
+                renderAs='svg'
+                value={JSON.stringify({
+                  status: 'Not Issued'
+                })}
+              />
+            </div>
           </div>
         </div>
 
-        <div style={{display: 'flex', justifyContent: 'center', marginTop: '4%'}}>
-          <div style={{backgroundImage: `url(${require('./assets/ticket_left.png')})`, backgroundSize: 'cover', width: 376, height: 250, display: 'flex', justifyContent: 'center', alignItems: 'center', paddingTop: '5%', paddingLeft: '1%' }}>
-            <TicketInput stops={this.state.stops} currentStop={this.state.currentStop} />
+        <div style={{width: '40%', padding: '5% 2%'}}>
+          <div style={{display: 'flex', flexDirection: 'row', justifyContent: 'center', border: '2px solid black', borderTopLeftRadius: 20, borderTopRightRadius: 20, padding: '2% 0%', backgroundColor: 'black'}}>
+            <Icon size='big' name='ticket' color='green' style={{paddingTop: 3, paddingRight: '8%'}} />
+            <h2 style={{color: 'white', verticalAlign: 'top', margin: 0}}>Issued Tickets</h2>
           </div>
-          <div style={{backgroundImage: `url(${require('./assets/ticket_right.png')})`, backgroundSize: 'cover', width: 166, height: 250, display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
-            <QRCode 
-              level='Q'
-              style={{width: 125}}
-              bgColor='#fe5d21'
-              renderAs='svg'
-              value={JSON.stringify({
-                status: 'Not Issued'
-              })}
-            />
+          <div style={{ border: '2px solid black', borderTop: 'none', height: 580, borderBottomLeftRadius: 5, borderBottomRightRadius: 5, overflowY: 'scroll'}}>
+
           </div>
         </div>
       </div>
