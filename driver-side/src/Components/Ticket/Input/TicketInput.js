@@ -7,7 +7,7 @@ export default class TicketInput extends Component {
             <div style={{display: 'flex', flexDirection: 'column', position: 'absolute'}}>
               <div style={{display: 'flex', marginBottom: 20}}>
                 <img src={require('../../../assets/board.png')} alt='board' height={35} style={{marginRight: 10}} />
-                <span style={{fontWeight: 600, marginLeft: 14, marginTop: 8}}>Stop {this.props.currentStop + 1}</span>
+                <span style={{fontWeight: 600, marginLeft: 14, marginTop: 8}}>{this.props.currentStop}</span>
               </div>
               <div style={{display: 'flex'}}>
                 <img src={require('../../../assets/drop.png')} alt='drop' height={35} style={{marginRight: 10}} />

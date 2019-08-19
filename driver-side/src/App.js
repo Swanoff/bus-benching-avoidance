@@ -9,7 +9,7 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      currentStop: 0,
+      currentStop: 'Gandhipuram',
       totalHeadCount: 0,
       sitting: 0,
       standing: 0,
@@ -21,6 +21,13 @@ class App extends Component {
         { key: '2', value: '2', text: 'Madhukarai' },
         { key: '3', value: '3', text: 'Ettimadai' }
       ],
+      stop1: 'Gandhipuram',
+      stop2: 'Ukkadam',
+      stop2_km: 11,
+      stop3: 'Madhukarai',
+      stop3_km: 19,
+      stop4: 'Ettimadai',
+      stop4_km: 27,
       issuedTickets: []
     };
     this.updateLocation = this.updateLocation.bind(this);
@@ -29,25 +36,43 @@ class App extends Component {
   updateLocation = (Null, value) => {
     this.setState({
       distance: value
-    })
+    });
+
+    // Changing current stop based on distance using slider
+    if (this.state.distance === 0)
+      this.setState({
+        currentStop: this.state.stop1
+      })
+    else if (this.state.distance === this.state.stop2_km)
+      this.setState({
+        currentStop: this.state.stop2
+      })
+    else if (this.state.distance === this.state.stop3_km)
+      this.setState({
+        currentStop: this.state.stop3
+      })
+    else if (this.state.distance === this.state.stop4_km)
+      this.setState({
+        currentStop: this.state.stop4
+      })
   }
 
   render() {
     const markers = [{
         value: 0,
-        label: 'Gandhipuram'
+        label: this.state.stop1
       },
       {
         value: 11,
-        label: 'Ukkadam'
+        label: this.state.stop2
       },
       {
         value: 19,
-        label: 'Madhukarai'
+        label: this.state.stop3
       },
       {
         value: 27,
-        label: 'Ettimadai'
+        label: this.state.stop4
       }
     ];
 
@@ -55,7 +80,7 @@ class App extends Component {
       return `${value} Km`;
     }
 
-    return (
+    return (  
       <div style={{display: 'flex'}}>
 
         {/* Left part */}
@@ -65,15 +90,6 @@ class App extends Component {
             <h1 style={{fontSize: 40, margin: 0}}>96</h1>
           </div>
           <div style={{display: 'flex', justifyContent: 'space-between', margin: '0% 15%'}}>
-            {/* <div style={{width: '85%'}}>
-              <Steps current={this.state.currentStop} labelPlacement='vertical'>
-                <Step title='Stop 1' />
-                <Step title='Stop 2' />
-                <Step title='Stop 3' />
-                <Step title='Stop 4' />
-              </Steps>
-            </div>
-            <Button circular icon='bus' color='orange' onClick={()=>this.gotoNextStop()}></Button> */}
             <div style={{width: '100%'}}>
                 <Slider
                     defaultValue={0}
