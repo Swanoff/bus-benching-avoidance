@@ -3,6 +3,7 @@ import ReactStoreIndicator from 'react-score-indicator';
 import QRCode from 'qrcode.react';
 import { Icon, Button } from 'semantic-ui-react';
 import TicketInput from './Components/Ticket/Input/TicketInput';
+import Route from './Components/Route/Route';
 
 import 'rc-steps/assets/index.css';
 import 'rc-steps/assets/iconfont.css';
@@ -33,7 +34,7 @@ class App extends Component {
       <div style={{display: 'flex'}}>
         <div style={{width: '60%', paddingTop: '5%'}}>
           <div style={{display: 'flex', justifyContent: 'space-between', margin: '0% 15%'}}>
-            <div style={{width: '85%'}}>
+            {/* <div style={{width: '85%'}}>
               <Steps current={this.state.currentStop} labelPlacement='vertical'>
                 <Step title='Stop 1' />
                 <Step title='Stop 2' />
@@ -41,7 +42,10 @@ class App extends Component {
                 <Step title='Stop 4' />
               </Steps>
             </div>
-            <Button circular icon='bus' color='orange' onClick={()=>this.gotoNextStop()}></Button>
+            <Button circular icon='bus' color='orange' onClick={()=>this.gotoNextStop()}></Button> */}
+            <div style={{width: '100%'}}>
+              <Route />
+            </div>
           </div>
 
           <div style={{ display: 'flex', justifyContent: 'center', marginTop: '4%' }}>
