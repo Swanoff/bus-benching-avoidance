@@ -1,14 +1,9 @@
 import React, {Component} from 'react';
 import ReactStoreIndicator from 'react-score-indicator';
 import QRCode from 'qrcode.react';
+import Slider from '@material-ui/core/Slider';
 import { Icon, Button } from 'semantic-ui-react';
 import TicketInput from './Components/Ticket/Input/TicketInput';
-import Route from './Components/Route/Route';
-
-import 'rc-steps/assets/index.css';
-import 'rc-steps/assets/iconfont.css';
-import './nextStep.css';
-import Steps, { Step } from 'rc-steps';
 
 class App extends Component {
   constructor(props) {
@@ -18,21 +13,57 @@ class App extends Component {
       totalHeadCount: 0,
       sitting: 0,
       standing: 0,
+      distance: 0,
       totalSeats: 40,
       stops: [
-        { key: '0', value: '0', text: 'Stop 1' },
-        { key: '1', value: '1', text: 'Stop 2' },
-        { key: '2', value: '2', text: 'Stop 3' },
-        { key: '3', value: '3', text: 'Stop 4' }
+        { key: '0', value: '0', text: 'Gandhipuram' },
+        { key: '1', value: '1', text: 'Ukkadam' },
+        { key: '2', value: '2', text: 'Madhukarai' },
+        { key: '3', value: '3', text: 'Ettimadai' }
       ],
       issuedTickets: []
-    }
+    };
+    this.updateLocation = this.updateLocation.bind(this);
+  }
+
+  updateLocation = (Null, value) => {
+    this.setState({
+      distance: value
+    })
   }
 
   render() {
+    const markers = [{
+        value: 0,
+        label: 'Gandhipuram'
+      },
+      {
+        value: 11,
+        label: 'Ukkadam'
+      },
+      {
+        value: 19,
+        label: 'Madhukarai'
+      },
+      {
+        value: 27,
+        label: 'Ettimadai'
+      }
+    ];
+
+    function valuetext(value) {
+      return `${value} Km`;
+    }
+
     return (
       <div style={{display: 'flex'}}>
-        <div style={{width: '60%', paddingTop: '5%'}}>
+
+        {/* Left part */}
+        <div style={{width: '60%', paddingTop: '2%'}}>
+          <div style={{display: 'flex', margin: '0% 15%', marginBottom: '8%'}}>
+            <Icon size='huge' name='bus' color='red' />
+            <h1 style={{fontSize: 40, margin: 0}}>96</h1>
+          </div>
           <div style={{display: 'flex', justifyContent: 'space-between', margin: '0% 15%'}}>
             {/* <div style={{width: '85%'}}>
               <Steps current={this.state.currentStop} labelPlacement='vertical'>
@@ -44,11 +75,20 @@ class App extends Component {
             </div>
             <Button circular icon='bus' color='orange' onClick={()=>this.gotoNextStop()}></Button> */}
             <div style={{width: '100%'}}>
-              <Route />
+                <Slider
+                    defaultValue={0}
+                    aria-labelledby="discrete-slider-custom"
+                    step={1}
+                    max={27}
+                    valueLabelFormat={valuetext}
+                    valueLabelDisplay="on"
+                    onChange={this.updateLocation}
+                    marks={markers}
+                />
             </div>
           </div>
 
-          <div style={{ display: 'flex', justifyContent: 'center', marginTop: '4%' }}>
+          <div style={{ display: 'flex', justifyContent: 'center' }}>
             <div style={{ display: 'flex', justifyContent: 'center', marginTop: '4%', marginRight: '13%' }}>
               <img src={require('./assets/seat.png')} alt='seat' height={100} style={{ marginTop: 30 }} />
               <ReactStoreIndicator style={{ position: 'absolute' }}
@@ -64,7 +104,7 @@ class App extends Component {
             </div>
           </div>
 
-          <div style={{display: 'flex', justifyContent: 'center', marginTop: '8%'}}>
+          <div style={{display: 'flex', justifyContent: 'center', marginTop: '4%'}}>
             <div style={{backgroundImage: `url(${require('./assets/ticket_left.png')})`, backgroundSize: 'cover', width: 376, height: 250, display: 'flex', justifyContent: 'center', alignItems: 'center', paddingTop: '5%', paddingLeft: '1%' }}>
               <TicketInput stops={this.state.stops} currentStop={this.state.currentStop} />
             </div>
@@ -83,6 +123,7 @@ class App extends Component {
           </div>
         </div>
 
+        {/* Right part - Issued tickets */}
         <div style={{width: '40%', padding: '5% 2%'}}>
           <div style={{display: 'flex', flexDirection: 'row', justifyContent: 'center', border: '2px solid black', borderTopLeftRadius: 20, borderTopRightRadius: 20, padding: '2% 0%', backgroundColor: 'black'}}>
             <Icon size='big' name='ticket' color='green' style={{paddingTop: 3, paddingRight: '8%'}} />
