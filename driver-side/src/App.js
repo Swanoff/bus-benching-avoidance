@@ -3,6 +3,7 @@ import ReactStoreIndicator from 'react-score-indicator';
 import QRCode from 'qrcode.react';
 import Slider from '@material-ui/core/Slider';
 import { Icon, Button } from 'semantic-ui-react';
+import firebase from '../src/db/firebase';
 import TicketInput from './Components/Ticket/Input/TicketInput';
 
 class App extends Component {
@@ -34,9 +35,21 @@ class App extends Component {
   }
 
   updateLocation = (Null, value) => {
-    this.setState({
-      distance: value
-    });
+    // conditional update of 'distance' state
+    if (value !== this.state.distance) // This condition updates the state only if it is changed even though the point is the slider is clicked so many times
+    {
+      console.log(value);
+      this.setState({
+        distance: value
+      });
+
+      firebase.database().ref().child('bus/96')
+        .update({
+          distance: this.state.distance
+        })
+        .then(()=>{console.log('Data is saved')})
+        .catch((e)=>{console.log('Failed. ', e)})
+    }
 
     // Changing current stop based on distance using slider
     if (this.state.distance === 0)
