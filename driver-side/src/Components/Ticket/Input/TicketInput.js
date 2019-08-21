@@ -11,7 +11,7 @@ export default class TicketInput extends Component {
               </div>
               <div style={{display: 'flex'}}>
                 <img src={require('../../../assets/drop.png')} alt='drop' height={35} style={{marginRight: 10}} />
-                <Dropdown search selection options={this.props.stops} />
+                <Dropdown search selection options={this.props.stops} onChange={this.props.setDestination} />
               </div>
             </div>
         )

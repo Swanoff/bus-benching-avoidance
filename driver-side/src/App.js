@@ -11,16 +11,17 @@ class App extends Component {
     super(props);
     this.state = {
       currentStop: 'Gandhipuram',
+      selectedDestination: '',
       totalHeadCount: 0,
       sitting: 0,
       standing: 0,
       distance: 0,
       totalSeats: 40,
       stops: [
-        { key: '0', value: '0', text: 'Gandhipuram' },
-        { key: '1', value: '1', text: 'Ukkadam' },
-        { key: '2', value: '2', text: 'Madhukarai' },
-        { key: '3', value: '3', text: 'Ettimadai' }
+        { key: '0', value: 'Gandhipuram', text: 'Gandhipuram' },
+        { key: '1', value: 'Ukkadam', text: 'Ukkadam' },
+        { key: '2', value: 'Madhukarai', text: 'Madhukarai' },
+        { key: '3', value: 'Ettimadai', text: 'Ettimadai' }
       ],
       stop1: 'Gandhipuram',
       stop2: 'Ukkadam',
@@ -32,6 +33,7 @@ class App extends Component {
       issuedTickets: []
     };
     this.updateLocation = this.updateLocation.bind(this);
+    this.setDestination = this.setDestination.bind(this);
   }
 
   updateLocation = (Null, value) => {
@@ -68,6 +70,13 @@ class App extends Component {
       this.setState({
         currentStop: this.state.stop4
       })
+  }
+
+  setDestination = (event, {value}) => {
+    console.log(value);
+    this.setState({
+      selectedDestination: value
+    })
   }
 
   render() {
@@ -135,7 +144,7 @@ class App extends Component {
 
           <div style={{display: 'flex', justifyContent: 'center', marginTop: '4%'}}>
             <div style={{backgroundImage: `url(${require('./assets/ticket_left.png')})`, backgroundSize: 'cover', width: 376, height: 250, display: 'flex', justifyContent: 'center', alignItems: 'center', paddingTop: '5%', paddingLeft: '1%' }}>
-              <TicketInput stops={this.state.stops} currentStop={this.state.currentStop} />
+              <TicketInput stops={this.state.stops} currentStop={this.state.currentStop} setDestination={this.setDestination} />
             </div>
             <div style={{backgroundImage: `url(${require('./assets/ticket_right.png')})`, backgroundSize: 'cover', width: 166, height: 250, display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'column'}}>
               <QRCode 
