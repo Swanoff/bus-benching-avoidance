@@ -3,6 +3,7 @@ import { Router, Scene, Drawer } from 'react-native-router-flux';
 
 import DrawerContent from './src/Components/Drawer/DrawerContent';
 import Home from './src/Screens/Home';
+// import LoginForm from './src/Screens/LoginForm';
 
 const routerComponent = () => {
     return(
@@ -14,6 +15,7 @@ const routerComponent = () => {
                     <Scene 
                         key='Home'
                         component={Home}
+                        initial
                     />
                 </Scene>
             </Drawer>
