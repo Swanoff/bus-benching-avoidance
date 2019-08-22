@@ -240,8 +240,19 @@ class App extends Component {
         </div>
 
         {/* Bus Route Image */}
-        <div style={{backgroundImage: `url(${require('./assets/bus_route_qr.png')})`, backgroundSize: 'cover', height: 350, marginBottom: '2%'}}>
-
+        <div style={{backgroundImage: `url(${require('./assets/bus_route_qr.png')})`, backgroundSize: 'cover', height: 350, marginBottom: '2%', display: 'flex', flexDirection: 'row-reverse', padding: '5.5% 10%'}}>
+          <QRCode 
+            level='Q'
+            style={{height: 170, width: 170}}
+            bgColor='#ffffff'
+            renderAs='svg'
+            value={JSON.stringify({
+              stop1: this.state.stop1,
+              stop2: this.state.stop2,
+              stop3: this.state.stop3,
+              stop4: this.state.stop4
+            })}
+          />            
         </div>
       </div>
     );
