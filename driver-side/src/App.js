@@ -11,7 +11,7 @@ class App extends Component {
     super(props);
     this.state = {
       currentStop: 'Gandhipuram',
-      selectedDestination: '',
+      selectedDestination: '', // customer's dropping point
       totalHeadCount: 0,
       sitting: 0,
       standing: 0,
@@ -22,7 +22,7 @@ class App extends Component {
         { key: '1', value: 'Ukkadam', text: 'Ukkadam' },
         { key: '2', value: 'Madhukarai', text: 'Madhukarai' },
         { key: '3', value: 'Ettimadai', text: 'Ettimadai' }
-      ],
+      ], // values for Semantic UI's dropdown
       stop1: 'Gandhipuram',
       stop2: 'Ukkadam',
       stop2_km: 11,
@@ -30,12 +30,18 @@ class App extends Component {
       stop3_km: 19,
       stop4: 'Ettimadai',
       stop4_km: 27,
-      issuedTickets: []
+      issuedTickets: [],
+      dropCount: {
+        Ukkadam: 0,
+        Madhukarai: 0,
+        Ettimadai: 0
+      }
     };
     this.updateLocation = this.updateLocation.bind(this);
     this.setDestination = this.setDestination.bind(this);
   }
 
+  // to track the distance travelled by the bus (by sliding the slider)
   updateLocation = (Null, value) => {
     // conditional update of 'distance' state
     if (value !== this.state.distance) // This condition updates the state only if it is changed even though the point is the slider is clicked so many times
@@ -45,6 +51,7 @@ class App extends Component {
         distance: value
       });
 
+      // update distance travelled in firebase
       firebase.database().ref().child('bus/96')
         .update({
           distance: this.state.distance
@@ -72,14 +79,15 @@ class App extends Component {
       })
   }
 
+  // to track dropping point of customer while issuing each ticket
   setDestination = (event, {value}) => {
-    console.log(value);
     this.setState({
       selectedDestination: value
     })
   }
 
   render() {
+    // Location points on slider
     const markers = [{
         value: 0,
         label: this.state.stop1
@@ -98,6 +106,7 @@ class App extends Component {
       }
     ];
 
+    // Formatting the value which is displayed on slider's pin
     function valuetext(value) {
       return `${value} Km`;
     }
@@ -190,18 +199,14 @@ class App extends Component {
       return '#d12000'
   }
 
-  gotoNextStop() {
-    if (this.state.currentStop < 3)
-      this.setState({
-        currentStop: this.state.currentStop + 1
-      })
-  }
-
   issueTicket() {
+    var updatedDropCount = this.state.dropCount;
+    updatedDropCount[this.state.selectedDestination]= updatedDropCount[this.state.selectedDestination]+1;
     this.setState({
       sitting: Math.min(this.state.totalHeadCount+1, this.state.totalSeats),
       standing: Math.max(0, this.state.totalHeadCount+1-this.state.totalSeats),
-      totalHeadCount: this.state.totalHeadCount + 1
+      totalHeadCount: this.state.totalHeadCount + 1,
+      dropCount: updatedDropCount
     })
   }
 }
