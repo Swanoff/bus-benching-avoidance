@@ -13,7 +13,7 @@ class DrawerContent extends Component {
                 <View>
                     <TouchableNativeFeedback onPress={()=>Actions.Home()}>
                         <View>
-                            <Text style={styles.option}>Home</Text>
+                            <Text style={styles.option}>Search bus</Text>
                         </View>
                     </TouchableNativeFeedback>
 
@@ -21,12 +21,12 @@ class DrawerContent extends Component {
 
                     <TouchableNativeFeedback>
                         <View>
-                            <Text style={styles.option}>Settings</Text>
+                            <Text style={styles.option}>Scan QR</Text>
                         </View>
                     </TouchableNativeFeedback>
                     <TouchableNativeFeedback>
                         <View>
-                            <Text style={styles.option}>Customer Care</Text>
+                            <Text style={styles.option}>Sign In</Text>
                         </View>
                     </TouchableNativeFeedback>
                 </View>

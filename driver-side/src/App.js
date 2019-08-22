@@ -168,73 +168,80 @@ class App extends Component {
     }
 
     return (  
-      <div style={{display: 'flex'}}>
+      <div>
+        <div style={{display: 'flex'}}>
 
-        {/* Left part */}
-        <div style={{width: '60%', paddingTop: '2%'}}>
-          <div style={{display: 'flex', margin: '0% 15%', marginBottom: '8%'}}>
-            <Icon size='huge' name='bus' color='red' />
-            <h1 style={{fontSize: 40, margin: 0}}>96</h1>
-          </div>
-          <div style={{display: 'flex', justifyContent: 'space-between', margin: '0% 15%'}}>
-            <div style={{width: '100%'}}>
-                <Slider
-                    defaultValue={0}
-                    aria-labelledby="discrete-slider-custom"
-                    step={1}
-                    max={27}
-                    valueLabelFormat={valuetext}
-                    valueLabelDisplay="on"
-                    onChange={this.updateLocation}
-                    marks={markers}
+          {/* Left part */}
+          <div style={{width: '60%', paddingTop: '2%'}}>
+            <div style={{display: 'flex', margin: '0% 15%', marginBottom: '8%'}}>
+              <Icon size='huge' name='bus' color='red' />
+              <h1 style={{fontSize: 40, margin: 0}}>96</h1>
+            </div>
+            <div style={{display: 'flex', justifyContent: 'space-between', margin: '0% 15%'}}>
+              <div style={{width: '100%'}}>
+                  <Slider
+                      defaultValue={0}
+                      aria-labelledby="discrete-slider-custom"
+                      step={1}
+                      max={27}
+                      valueLabelFormat={valuetext}
+                      valueLabelDisplay="on"
+                      onChange={this.updateLocation}
+                      marks={markers}
+                  />
+              </div>
+            </div>
+
+            <div style={{ display: 'flex', justifyContent: 'center' }}>
+              <div style={{ display: 'flex', justifyContent: 'center', marginTop: '4%', marginRight: '13%' }}>
+                <img src={require('./assets/seat.png')} alt='seat' height={100} style={{ marginTop: 30 }} />
+                <ReactStoreIndicator style={{ position: 'absolute' }}
+                  value={this.state.sitting}
+                  maxValue={this.state.totalSeats}
+                  stepsColors={['#3da940', '#3da940', '#3da940', '#53b83a', '#84c42b', '#f1bc00', '#ed8d00', '#d12000']}
+                  textStyle={{paddingTop: 5}}
                 />
+              </div>
+              <div style={{ display: 'flex', flexDirection: 'column', marginTop: '4%', marginLeft: '13%' }}>
+                <img src={require('./assets/stand.png')} alt='standing' height={135} style={{marginBottom: 20}} />
+                <span style={{ fontSize: 25, fontWeight: 'bold', color: this.getStandingCountColor(), marginLeft: 3 }}>X <span style={{ fontSize: 35, fontWeight: '500' }}>{this.state.standing}</span></span>
+              </div>
+            </div>
+
+            <div style={{display: 'flex', justifyContent: 'center', marginTop: '4%'}}>
+              <div style={{backgroundImage: `url(${require('./assets/ticket_left.png')})`, backgroundSize: 'cover', width: 376, height: 250, display: 'flex', justifyContent: 'center', alignItems: 'center', paddingTop: '5%', paddingLeft: '1%' }}>
+                <TicketInput stops={this.state.stops} currentStop={this.state.currentStop} setDestination={this.setDestination} />
+              </div>
+              <div style={{backgroundImage: `url(${require('./assets/ticket_right.png')})`, backgroundSize: 'cover', width: 166, height: 250, display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'column'}}>
+                <QRCode 
+                  level='Q'
+                  style={{width: 125}}
+                  bgColor='#fe5d21'
+                  renderAs='svg'
+                  value={JSON.stringify({
+                    status: 'Not Issued'
+                  })}
+                />
+                <Button circular color='red' style={{marginTop: 20}} onClick={()=>this.issueTicket()}>Issue</Button>
+              </div>
             </div>
           </div>
 
-          <div style={{ display: 'flex', justifyContent: 'center' }}>
-            <div style={{ display: 'flex', justifyContent: 'center', marginTop: '4%', marginRight: '13%' }}>
-              <img src={require('./assets/seat.png')} alt='seat' height={100} style={{ marginTop: 30 }} />
-              <ReactStoreIndicator style={{ position: 'absolute' }}
-                value={this.state.sitting}
-                maxValue={this.state.totalSeats}
-                stepsColors={['#3da940', '#3da940', '#3da940', '#53b83a', '#84c42b', '#f1bc00', '#ed8d00', '#d12000']}
-                textStyle={{paddingTop: 5}}
-              />
+          {/* Right part - Issued tickets */}
+          <div style={{width: '40%', padding: '5% 2%'}}>
+            <div style={{display: 'flex', flexDirection: 'row', justifyContent: 'center', border: '2px solid black', borderTopLeftRadius: 20, borderTopRightRadius: 20, padding: '2% 0%', backgroundColor: 'black'}}>
+              <Icon size='big' name='ticket' color='green' style={{paddingTop: 3, paddingRight: '8%'}} />
+              <h2 style={{color: 'white', verticalAlign: 'top', margin: 0}}>Issued Tickets</h2>
             </div>
-            <div style={{ display: 'flex', flexDirection: 'column', marginTop: '4%', marginLeft: '13%' }}>
-              <img src={require('./assets/stand.png')} alt='standing' height={135} style={{marginBottom: 20}} />
-              <span style={{ fontSize: 25, fontWeight: 'bold', color: this.getStandingCountColor(), marginLeft: 3 }}>X <span style={{ fontSize: 35, fontWeight: '500' }}>{this.state.standing}</span></span>
-            </div>
-          </div>
+            <div style={{ border: '2px solid black', borderTop: 'none', height: 580, borderBottomLeftRadius: 5, borderBottomRightRadius: 5, overflowY: 'scroll'}}>
 
-          <div style={{display: 'flex', justifyContent: 'center', marginTop: '4%'}}>
-            <div style={{backgroundImage: `url(${require('./assets/ticket_left.png')})`, backgroundSize: 'cover', width: 376, height: 250, display: 'flex', justifyContent: 'center', alignItems: 'center', paddingTop: '5%', paddingLeft: '1%' }}>
-              <TicketInput stops={this.state.stops} currentStop={this.state.currentStop} setDestination={this.setDestination} />
-            </div>
-            <div style={{backgroundImage: `url(${require('./assets/ticket_right.png')})`, backgroundSize: 'cover', width: 166, height: 250, display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'column'}}>
-              <QRCode 
-                level='Q'
-                style={{width: 125}}
-                bgColor='#fe5d21'
-                renderAs='svg'
-                value={JSON.stringify({
-                  status: 'Not Issued'
-                })}
-              />
-              <Button circular color='red' style={{marginTop: 20}} onClick={()=>this.issueTicket()}>Issue</Button>
             </div>
           </div>
         </div>
 
-        {/* Right part - Issued tickets */}
-        <div style={{width: '40%', padding: '5% 2%'}}>
-          <div style={{display: 'flex', flexDirection: 'row', justifyContent: 'center', border: '2px solid black', borderTopLeftRadius: 20, borderTopRightRadius: 20, padding: '2% 0%', backgroundColor: 'black'}}>
-            <Icon size='big' name='ticket' color='green' style={{paddingTop: 3, paddingRight: '8%'}} />
-            <h2 style={{color: 'white', verticalAlign: 'top', margin: 0}}>Issued Tickets</h2>
-          </div>
-          <div style={{ border: '2px solid black', borderTop: 'none', height: 580, borderBottomLeftRadius: 5, borderBottomRightRadius: 5, overflowY: 'scroll'}}>
+        {/* Bus Route Image */}
+        <div style={{backgroundImage: `url(${require('./assets/bus_route_qr.png')})`, backgroundSize: 'cover', height: 350, marginBottom: '2%'}}>
 
-          </div>
         </div>
       </div>
     );
