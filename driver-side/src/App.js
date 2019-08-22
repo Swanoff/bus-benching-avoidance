@@ -55,6 +55,8 @@ class App extends Component {
       console.log(value);
       this.setState({
         distance: value,
+        sitting: Math.min(this.state.totalHeadCount>this.state.totalSeats?this.state.totalSeats:this.state.totalHeadCount, this.state.sitting),
+        standing: Math.max(0, this.state.totalHeadCount-this.state.totalSeats),
       });
 
       // update distance travelled in firebase
@@ -69,7 +71,7 @@ class App extends Component {
     // Changing current stop based on distance using slider
     if (this.state.distance === 0)
       this.setState({
-        currentStop: this.state.stop1,
+        currentStop: this.state.stop1
       })
     else if (this.state.distance === this.state.stop2_km)
     {
