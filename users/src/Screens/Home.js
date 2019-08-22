@@ -40,6 +40,7 @@ export default class Home extends Component {
                         />
                     }
                     title="   Search"
+                    onPress={()=>Actions.Results()}
                 />
             </View>
         )
