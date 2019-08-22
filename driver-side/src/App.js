@@ -10,6 +10,7 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      busName: 96,
       currentStop: 'Gandhipuram',
       selectedDestination: '', // customer's dropping point
       totalHeadCount: 0,
@@ -35,7 +36,12 @@ class App extends Component {
         Ukkadam: 0,
         Madhukarai: 0,
         Ettimadai: 0
-      }
+      }, // to track the free seats at upcoming drop points
+      estimatedHeadCout: {
+        Ukkadam: 0,
+        Madhukarai: 0,
+        Ettimadai: 0
+      } 
     };
     this.updateLocation = this.updateLocation.bind(this);
     this.setDestination = this.setDestination.bind(this);
@@ -48,11 +54,11 @@ class App extends Component {
     {
       console.log(value);
       this.setState({
-        distance: value
+        distance: value,
       });
 
       // update distance travelled in firebase
-      firebase.database().ref().child('bus/96')
+      firebase.database().ref().child(`bus/${this.state.busName}`)
         .update({
           distance: this.state.distance
         })
@@ -63,20 +69,68 @@ class App extends Component {
     // Changing current stop based on distance using slider
     if (this.state.distance === 0)
       this.setState({
-        currentStop: this.state.stop1
+        currentStop: this.state.stop1,
       })
     else if (this.state.distance === this.state.stop2_km)
-      this.setState({
-        currentStop: this.state.stop2
-      })
+    {
+      if (this.state.dropCount[this.state.stop2] !== 0) // to decrease totalHeadCount after dropping people
+      {
+        var updatedDropCount = this.state.dropCount;
+        var drops = updatedDropCount[this.state.stop2]  // total people dropping at this stop
+        updatedDropCount[this.state.stop2] = 0;
+        this.setState({
+          currentStop: this.state.stop2,
+          totalHeadCount: this.state.totalHeadCount - drops,
+          dropCount: updatedDropCount
+        })
+      }
+      else // if no one is dropping, then no need to decrease totalHeadCound
+      {
+        this.setState({
+          currentStop: this.state.stop2
+        })
+      }
+    }
     else if (this.state.distance === this.state.stop3_km)
-      this.setState({
-        currentStop: this.state.stop3
-      })
+    {
+      if (this.state.dropCount[this.state.stop3] !== 0) // to decrease totalHeadCount after dropping people
+      {
+        updatedDropCount = this.state.dropCount;
+        drops = updatedDropCount[this.state.stop3]  // total people dropping at this stop
+        updatedDropCount[this.state.stop3] = 0;
+        this.setState({
+          currentStop: this.state.stop3,
+          totalHeadCount: this.state.totalHeadCount - drops,
+          dropCount: updatedDropCount
+        })
+      }
+      else // if no one is dropping, then no need to decrease totalHeadCound
+      {
+        this.setState({
+          currentStop: this.state.stop3
+        })
+      }
+    }
     else if (this.state.distance === this.state.stop4_km)
-      this.setState({
-        currentStop: this.state.stop4
-      })
+    {
+      if (this.state.dropCount[this.state.stop4] !== 0) // to decrease totalHeadCount after dropping people
+      {
+        updatedDropCount = this.state.dropCount;
+        drops = updatedDropCount[this.state.stop4]  // total people dropping at this stop
+        updatedDropCount[this.state.stop4] = 0;
+        this.setState({
+          currentStop: this.state.stop4,
+          totalHeadCount: this.state.totalHeadCount - drops,
+          dropCount: updatedDropCount
+        })
+      }
+      else // if no one is dropping, then no need to decrease totalHeadCound
+      {
+        this.setState({
+          currentStop: this.state.stop4
+        })
+      }
+    }
   }
 
   // to track dropping point of customer while issuing each ticket
@@ -202,6 +256,7 @@ class App extends Component {
   issueTicket() {
     var updatedDropCount = this.state.dropCount;
     updatedDropCount[this.state.selectedDestination]= updatedDropCount[this.state.selectedDestination]+1;
+
     this.setState({
       sitting: Math.min(this.state.totalHeadCount+1, this.state.totalSeats),
       standing: Math.max(0, this.state.totalHeadCount+1-this.state.totalSeats),
