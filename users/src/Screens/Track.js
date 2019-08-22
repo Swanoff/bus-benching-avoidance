@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
-import {View} from 'react-native';
-import firebase from 'firebase';
+import {View, Text} from 'react-native';
+import firebase, { database } from 'firebase';
 
 export default class Track extends Component {
     constructor(props) {
         super(props);
         this.state = {
-
+            distance: ''
         }
     }
 
@@ -21,13 +21,20 @@ export default class Track extends Component {
         appId: "1:1003500493080:web:f6ac4616aebe0188"
         };
         // Initialize Firebase
-        firebase.initializeApp(firebaseConfig);
+        if (!firebase.apps.length) {
+            firebase.initializeApp(firebaseConfig);
+        }
     }
 
     render() {
+        firebase.database().ref('bus/96/distance').once('value', (snapshot)=>{
+            this.setState({
+                distance: snapshot.val()
+            })
+        })
         return (
             <View>
-
+                <Text>{this.state.distance}</Text>
             </View>
         )
     }
