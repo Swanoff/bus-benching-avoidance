@@ -5,12 +5,13 @@ import Slider from '@material-ui/core/Slider';
 import { Icon, Button } from 'semantic-ui-react';
 import firebase from '../src/db/firebase';
 import TicketInput from './Components/Ticket/Input/TicketInput';
+import IssuedTicket from './Components/Ticket/Issued/IssuedTicket';
 
 class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      busName: 96,
+      busName: '96A',
       currentStop: 'Gandhipuram',
       selectedDestination: '', // customer's dropping point
       totalHeadCount: 0,
@@ -41,6 +42,12 @@ class App extends Component {
         Ukkadam: 0,
         Madhukarai: 0,
         Ettimadai: 0
+      },
+      relDistance: {
+        Gandhipuram: 0,
+        Ukkadam: 11,
+        Madhukarai: 19,
+        Ettimadai: 27 
       } 
     };
     this.updateLocation = this.updateLocation.bind(this);
@@ -53,16 +60,24 @@ class App extends Component {
     if (value !== this.state.distance) // This condition updates the state only if it is changed even though the point is the slider is clicked so many times
     {
       console.log(value);
+
+      var updatedEstimatedHeadCount = {
+        Ukkadam: this.state.totalHeadCount - this.state.dropCount[this.state.stop2],
+        Madhukarai: this.state.totalHeadCount - this.state.dropCount[this.state.stop2] - this.state.dropCount[this.state.stop3]
+      }
       this.setState({
         distance: value,
         sitting: Math.min(this.state.totalHeadCount>this.state.totalSeats?this.state.totalSeats:this.state.totalHeadCount, this.state.sitting),
         standing: Math.max(0, this.state.totalHeadCount-this.state.totalSeats),
+        estimatedHeadCout: updatedEstimatedHeadCount
       });
 
       // update distance travelled in firebase
       firebase.database().ref().child(`bus/${this.state.busName}`)
         .update({
-          distance: this.state.distance
+          distance: this.state.distance,
+          Ukkadam: this.state.estimatedHeadCout['Ukkadam'],
+          Madhukarai: this.state.estimatedHeadCout['Madhukarai']
         })
         .then(()=>{console.log('Data is saved')})
         .catch((e)=>{console.log('Failed. ', e)})
@@ -167,6 +182,11 @@ class App extends Component {
       return `${value} Km`;
     }
 
+    // firebase.database().ref('bus/96/distance').on('value', (snapshot) => {
+    //   const bus = snapshot.val();
+    //   console.log(bus);
+    // })
+
     return (  
       <div>
         <div style={{display: 'flex'}}>
@@ -175,7 +195,7 @@ class App extends Component {
           <div style={{width: '60%', paddingTop: '2%'}}>
             <div style={{display: 'flex', margin: '0% 15%', marginBottom: '8%'}}>
               <Icon size='huge' name='bus' color='red' />
-              <h1 style={{fontSize: 40, margin: 0}}>96</h1>
+              <h1 style={{fontSize: 40, margin: 0}}>{this.state.busName}</h1>
             </div>
             <div style={{display: 'flex', justifyContent: 'space-between', margin: '0% 15%'}}>
               <div style={{width: '100%'}}>
@@ -234,7 +254,7 @@ class App extends Component {
               <h2 style={{color: 'white', verticalAlign: 'top', margin: 0}}>Issued Tickets</h2>
             </div>
             <div style={{ border: '2px solid black', borderTop: 'none', height: 580, borderBottomLeftRadius: 5, borderBottomRightRadius: 5, overflowY: 'scroll'}}>
-
+              {this.state.issuedTickets}
             </div>
           </div>
         </div>
@@ -277,11 +297,22 @@ class App extends Component {
     var updatedDropCount = this.state.dropCount;
     updatedDropCount[this.state.selectedDestination]= updatedDropCount[this.state.selectedDestination]+1;
 
+    var updatedIssuedTickets = this.state.issuedTickets;
+    updatedIssuedTickets.push(
+      <IssuedTicket 
+        number = {updatedIssuedTickets.length + 1}
+        src = {this.state.currentStop}
+        dest = {this.state.selectedDestination}
+        kms = {this.state.relDistance[this.state.selectedDestination] - this.state.relDistance[this.state.currentStop]}
+      />
+    );
+
     this.setState({
       sitting: Math.min(this.state.totalHeadCount+1, this.state.totalSeats),
       standing: Math.max(0, this.state.totalHeadCount+1-this.state.totalSeats),
       totalHeadCount: this.state.totalHeadCount + 1,
-      dropCount: updatedDropCount
+      dropCount: updatedDropCount,
+      issuedTickets: updatedIssuedTickets
     })
   }
 }
