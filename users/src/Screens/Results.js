@@ -11,12 +11,21 @@ export default class Results extends Component {
     }
 
     render() {
+        const gotoBusA = () => Actions.Track({busName: '96A'});
+        const gotoBusB = () => Actions.Track({busName: '96B'});
         return (
             <View style={results.layout}>
                 <Text style={results.title}>2 buses found</Text>
-                <TouchableNativeFeedback onPress={()=>Actions.Track()}>
+
+                <TouchableNativeFeedback onPress={gotoBusA}>
                     <View>
-                        <Text>96</Text>
+                        <Text>96-A</Text>
+                    </View>
+                </TouchableNativeFeedback>
+
+                <TouchableNativeFeedback onPress={gotoBusB}>
+                    <View>
+                        <Text>96-B</Text>
                     </View>
                 </TouchableNativeFeedback>
             </View>

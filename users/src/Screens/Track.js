@@ -27,7 +27,7 @@ export default class Track extends Component {
     }
 
     render() {
-        firebase.database().ref('bus/96/distance').once('value', (snapshot)=>{
+        firebase.database().ref(`bus/${this.props.busName}/distance`).once('value', (snapshot) => {
             this.setState({
                 distance: snapshot.val()
             })
@@ -35,6 +35,37 @@ export default class Track extends Component {
         return (
             <View>
                 <Text>{this.state.distance}</Text>
+                {
+                    (this.state.distance == 0)
+                    ?
+                    (<Text>Bus is at Gandhipuram</Text>)
+                    :
+                        (this.state.distance>0 && this.state.distance<11)
+                        ?
+                        (<Text>Bus is {11 - this.state.distance}Kms away from Ukkadam</Text>)
+                        :
+                            (this.state.distance == 11)
+                            ?
+                            (<Text>Bus is at Ukkadam</Text>)
+                            :
+                                (this.state.distance>11 && this.state.distance<19)
+                                ?
+                                (<Text>Bus is {19 - this.state.distance}Kms away from Madhukarai</Text>)
+                                :
+                                    (this.state.distance == 19)
+                                    ?
+                                    (<Text>Bus is at Madhukarai</Text>)
+                                    :
+                                        (this.state.distance>19 && this.state.distance<27)
+                                        ?
+                                        (<Text>Bus is {27 - this.state.distance}Kms away from Ettimadai</Text>)
+                                        :
+                                            (this.state.distance == 27)
+                                            ?
+                                            (<Text>Bus is at Ettimadai</Text>)
+                                            :
+                                            null
+                }
             </View>
         )
     }
