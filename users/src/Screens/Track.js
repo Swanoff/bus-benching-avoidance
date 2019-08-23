@@ -6,7 +6,9 @@ export default class Track extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            distance: ''
+            Ukkadam: 0,
+            Madhukarai: 0,
+            distance: 0
         }
     }
 
@@ -27,9 +29,12 @@ export default class Track extends Component {
     }
 
     render() {
-        firebase.database().ref(`bus/${this.props.busName}/distance`).once('value', (snapshot) => {
+        firebase.database().ref(`bus/${this.props.busName}`).once('value', (snapshot) => {
+            var bus = snapshot.val();
             this.setState({
-                distance: snapshot.val()
+                Ukkadam: bus['Ukkadam'],
+                Madhukarai: bus['Madhukarai'],
+                distance: bus['distance']
             })
         })
         return (
@@ -65,6 +70,27 @@ export default class Track extends Component {
                                             (<Text>Bus is at Ettimadai</Text>)
                                             :
                                             null
+                }
+
+                {
+                    (this.state.distance < 11)
+                    ?
+                    (
+                        <View>
+                            <Text>Ukkadam headcount: {this.state.Ukkadam}</Text>
+                            <Text>Madhukarai headcount: {this.state.Madhukarai}</Text>
+                        </View>
+                    )
+                    :
+                        (this.state.distance>11 && this.state.distance<19)
+                        ?
+                        (
+                            <View>
+                                <Text>Madhukarai headcount: {this.state.Madhukarai}</Text>
+                            </View>
+                        )
+                        :
+                        null
                 }
             </View>
         )
