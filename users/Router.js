@@ -5,6 +5,7 @@ import DrawerContent from './src/Components/Drawer/DrawerContent';
 import Home from './src/Screens/Home';
 import Results from './src/Screens/Results';
 import Track from './src/Screens/Track';
+import ScanQR from './src/Screens/ScanQR';
 // import LoginForm from './src/Screens/LoginForm';
 
 const routerComponent = () => {
@@ -26,6 +27,10 @@ const routerComponent = () => {
                     <Scene
                         key='Track'
                         component={Track}
+                    />
+                    <Scene 
+                        key='ScanQR'
+                        component={ScanQR}
                     />
                 </Scene>
             </Drawer>
