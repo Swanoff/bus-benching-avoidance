@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
 
-import { StyleSheet, View, Text, Platform, TouchableOpacity, Linking, PermissionsAndroid } from 'react-native';
+import { StyleSheet, ScrollView,  View, Text, Platform, TouchableOpacity, Linking, PermissionsAndroid } from 'react-native';
 
 import { CameraKitCameraScreen, } from 'react-native-camera-kit';
+import {Image} from 'react-native-elements';
+import route from '../assets/bus-route.png';
 
 export default class ScanQR extends Component {
   constructor() {
@@ -67,19 +69,26 @@ export default class ScanQR extends Component {
 
       return (
         <View style={styles.MainContainer}>
+          {/* <Text style={{ fontSize: 22, textAlign: 'center' }}>React Native Scan QR Code Example</Text> */}
 
-          <Text style={{ fontSize: 22, textAlign: 'center' }}>React Native Scan QR Code Example</Text>
-
-          <Text style={styles.QR_text}>
+          {/* <Text style={styles.QR_text}>
             {this.state.QR_Code_Value ? 'Scanned QR Code: ' + this.state.QR_Code_Value : ''}
-          </Text>
+          </Text> */}
 
-          {this.state.QR_Code_Value.includes("http") ?
+          {/* {this.state.QR_Code_Value.includes("http") ?
             <TouchableOpacity
               onPress={this.openLink_in_browser}
               style={styles.button}>
               <Text style={{ color: '#FFF', fontSize: 14 }}>Open Link in default Browser</Text>
             </TouchableOpacity> : null
+          } */}
+
+          {this.state.QR_Code_Value.includes("stop") ?
+            <Image 
+              source={require('../assets/bus-route-1.png')}
+              style={{}}
+            />
+            : null
           }
 
           <TouchableOpacity
@@ -89,7 +98,6 @@ export default class ScanQR extends Component {
               Open QR Scanner
             </Text>
           </TouchableOpacity>
-
         </View>
       );
     }
@@ -118,6 +126,7 @@ const styles = StyleSheet.create({
     paddingTop: (Platform.OS) === 'ios' ? 20 : 0,
     alignItems: 'center',
     justifyContent: 'center',
+    backgroundColor: 'white'
   },
   QR_text: {
     color: '#000',

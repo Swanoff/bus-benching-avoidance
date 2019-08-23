@@ -6,7 +6,6 @@ import Home from './src/Screens/Home';
 import Results from './src/Screens/Results';
 import Track from './src/Screens/Track';
 import ScanQR from './src/Screens/ScanQR';
-// import LoginForm from './src/Screens/LoginForm';
 
 const routerComponent = () => {
     return(
