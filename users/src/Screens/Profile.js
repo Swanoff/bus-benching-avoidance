@@ -50,7 +50,16 @@ export default class Profile extends Component {
                     />
                 </View>
                 <Text style={profile.name}>{this.state.passengerName}</Text>
-                <Text>Distance Travelled: {this.state.distance} Km</Text>
+                <View style={profile.detailsBox}>
+                    <View style={profile.detailsSingle}>
+                        <Text style={profile.details}>Distance Travelled: </Text>
+                        <Text style={profile.detailsValue}>{this.state.distance} Km</Text>
+                    </View>
+                    <View style={profile.detailsSingle}>
+                        <Text style={profile.details}>Points Earned: </Text>
+                        <Text style={profile.detailsValue}>{this.state.distance+1}</Text>
+                    </View>
+                </View>
             </View>
         )
     }
@@ -68,6 +77,22 @@ const profile = StyleSheet.create({
     },
     name: {
         textAlign: 'center',
-        fontSize: 20
+        fontSize: 20,
+        fontWeight: 'bold'
+    },
+    details: {
+        fontSize: 18,
+        fontWeight: 'bold'
+    },
+    detailsSingle: {
+        flexDirection: 'row',
+        marginTop: 20
+    },
+    detailsValue: {
+        fontSize: 19
+    },
+    detailsBox: {
+        marginTop: 20,
+        paddingLeft: 20
     }
 })

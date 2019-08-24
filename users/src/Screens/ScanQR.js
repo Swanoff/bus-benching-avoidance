@@ -5,6 +5,7 @@ import { StyleSheet, ScrollView,  View, Text, Platform, TouchableOpacity, Linkin
 import { CameraKitCameraScreen, } from 'react-native-camera-kit';
 import {Image} from 'react-native-elements';
 import { Actions } from 'react-native-router-flux';
+import firebase, { database } from 'firebase';
 import route from '../assets/bus-route.png';
 
 export default class ScanQR extends Component {
@@ -18,7 +19,9 @@ export default class ScanQR extends Component {
 
       Start_Scanner: false,
 
-      result: ''
+      result: '',
+
+      passengerName: 'surya'
 
     };
   }
@@ -67,6 +70,23 @@ export default class ScanQR extends Component {
       that.setState({ Start_Scanner: true });
     }
   }
+
+  componentWillMount() {
+    var firebaseConfig = {
+      apiKey: "AIzaSyAe0t2aRPZcutEBO7hjXp4rO-T-078QM2o",
+      authDomain: "bus-bench.firebaseapp.com",
+      databaseURL: "https://bus-bench.firebaseio.com",
+      projectId: "bus-bench",
+      storageBucket: "bus-bench.appspot.com",
+      messagingSenderId: "1003500493080",
+      appId: "1:1003500493080:web:f6ac4616aebe0188"
+    };
+    // Initialize Firebase
+    if (!firebase.apps.length) {
+      firebase.initializeApp(firebaseConfig);
+    }
+  }
+
   render() {
     if (!this.state.Start_Scanner) {
 
@@ -96,6 +116,12 @@ export default class ScanQR extends Component {
 
           {this.state.QR_Code_Value.includes("source") ?
             <View>
+              {/* {
+                firebase.database().ref().child(`passengers/${this.state.passengerName}`)
+                  .update({
+                    distance: this.state.result.distance
+                  })
+              } */}
               <Text>Hooray! {this.state.result.distance} points have been added to your Account!</Text>
               <TouchableOpacity
                 onPress={() => Actions.Rate()}

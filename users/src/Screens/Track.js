@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import {View, Text} from 'react-native';
+import {View, Text, StyleSheet} from 'react-native';
+import {Image} from 'react-native-elements';
 import firebase, { database } from 'firebase';
 
 export default class Track extends Component {
@@ -38,61 +39,188 @@ export default class Track extends Component {
             })
         })
         return (
-            <View>
-                <Text>{this.state.distance}</Text>
-                {
-                    (this.state.distance == 0)
-                    ?
-                    (<Text>Bus is at Gandhipuram</Text>)
-                    :
-                        (this.state.distance>0 && this.state.distance<11)
-                        ?
-                        (<Text>Bus is {11 - this.state.distance}Kms away from Ukkadam</Text>)
-                        :
-                            (this.state.distance == 11)
-                            ?
-                            (<Text>Bus is at Ukkadam</Text>)
-                            :
-                                (this.state.distance>11 && this.state.distance<19)
-                                ?
-                                (<Text>Bus is {19 - this.state.distance}Kms away from Madhukarai</Text>)
-                                :
-                                    (this.state.distance == 19)
-                                    ?
-                                    (<Text>Bus is at Madhukarai</Text>)
-                                    :
-                                        (this.state.distance>19 && this.state.distance<27)
-                                        ?
-                                        (<Text>Bus is {27 - this.state.distance}Kms away from Ettimadai</Text>)
-                                        :
-                                            (this.state.distance == 27)
-                                            ?
-                                            (<Text>Bus is at Ettimadai</Text>)
-                                            :
-                                            null
-                }
+            <View style={track.layout}>
 
-                {
-                    (this.state.distance < 11)
-                    ?
-                    (
-                        <View>
-                            <Text>Ukkadam headcount: {this.state.Ukkadam}</Text>
-                            <Text>Madhukarai headcount: {this.state.Madhukarai}</Text>
-                        </View>
-                    )
-                    :
-                        (this.state.distance>11 && this.state.distance<19)
+                {/* Bus icon with name */}
+                <View style={track.busHead}>
+                    <Image 
+                        source={require('../assets/bus.jpg')}
+                        style={{height: 40, width: 40}}
+                    />
+                    <Text style={track.busName}>96A</Text>
+                </View>
+
+                <View style={track.liveBox}>
+                    <Text style={track.liveHead}>Live Status</Text>
+                    {
+                        (this.state.distance == 0)
+                        ?
+                        (<Text style={track.live}>Bus is at Gandhipuram</Text>)
+                        :
+                            (this.state.distance>0 && this.state.distance<11)
+                            ?
+                            (<Text style={track.live}>Bus is {11 - this.state.distance}Kms away from Ukkadam</Text>)
+                            :
+                                (this.state.distance == 11)
+                                ?
+                                (<Text style={track.live}>Bus is at Ukkadam</Text>)
+                                :
+                                    (this.state.distance>11 && this.state.distance<19)
+                                    ?
+                                    (<Text style={track.live}>Bus is {19 - this.state.distance}Kms away from Madhukarai</Text>)
+                                    :
+                                        (this.state.distance == 19)
+                                        ?
+                                        (<Text style={track.live}>Bus is at Madhukarai</Text>)
+                                        :
+                                            (this.state.distance>19 && this.state.distance<27)
+                                            ?
+                                            (<Text style={track.live}>Bus is {27 - this.state.distance}Kms away from Ettimadai</Text>)
+                                            :
+                                                (this.state.distance == 27)
+                                                ?
+                                                (<Text style={track.live}>Bus is at Ettimadai</Text>)
+                                                :
+                                                null
+                    }
+                </View>
+
+                <View>
+                    <Text style={track.liveHead}>Estimated Status at:</Text>
+                    {
+                        (this.state.distance < 11)
                         ?
                         (
                             <View>
-                                <Text>Madhukarai headcount: {this.state.Madhukarai}</Text>
+
+                                {/* Ukkadam status */}
+                                <View style={track.statusBoxOuter}>
+                                    <Text style={track.places}>Ukkadam</Text>
+                                    <View style={track.statusBox}>
+                                        {/* Sitting count at Ukkadam */}
+                                        <View style={track.status}>
+                                            <Image 
+                                                source={require('../assets/seat.png')}
+                                                style={{height: 40, width: 40}}
+                                            />
+                                            <Text style={track.count}>{this.state.Ukkadam}/40</Text>
+                                        </View>
+                                        {/* Standing count at Ukkadam */}
+                                        <View style={track.status}>
+                                            <Image 
+                                                source={require('../assets/stand.png')}
+                                                style={{height: 40, width: 20}}
+                                            />
+                                            <Text style={track.count}>0</Text>
+                                        </View>
+                                    </View>
+                                </View>
+
+                                {/* Madhukarai status */}
+                                <View style={track.statusBoxOuter}>
+                                    <Text style={track.places}>Madhukarai</Text>
+                                    <View style={track.statusBox}>
+                                        {/* Sitting count at Ukkadam */}
+                                        <View style={track.status}>
+                                            <Image 
+                                                source={require('../assets/seat.png')}
+                                                style={{height: 40, width: 40}}
+                                            />
+                                            <Text style={track.count}>{this.state.Madhukarai}/40</Text>
+                                        </View>
+                                        {/* Standing count at Ukkadam */}
+                                        <View style={track.status}>
+                                            <Image 
+                                                source={require('../assets/stand.png')}
+                                                style={{height: 40, width: 20}}
+                                            />
+                                            <Text style={track.count}>0</Text>
+                                        </View>
+                                    </View>
+                                </View>
+
                             </View>
                         )
                         :
-                        null
-                }
+                            (this.state.distance>11 && this.state.distance<19)
+                            ?
+                            (
+                                <View>
+                                    <View style={track.statusBoxOuter}>
+                                        <Text style={track.places}>Madhukarai</Text>
+                                        <View style={track.statusBox}>
+                                            {/* Sitting count at Ukkadam */}
+                                            <View style={track.status}>
+                                                <Image 
+                                                    source={require('../assets/seat.png')}
+                                                    style={{height: 40, width: 40}}
+                                                />
+                                                <Text style={track.count}>{this.state.Madhukarai}/40</Text>
+                                            </View>
+                                            {/* Standing count at Ukkadam */}
+                                            <View style={track.status}>
+                                                <Image 
+                                                    source={require('../assets/stand.png')}
+                                                    style={{height: 40, width: 20}}
+                                                />
+                                                <Text style={track.count}>0</Text>
+                                            </View>
+                                        </View>
+                                    </View>
+                                </View>
+                            )
+                            :
+                            null
+                    }
+                </View>
             </View>
         )
     }
 }
+
+const track = StyleSheet.create({
+    statusBox: {
+        flexDirection: 'row',
+    },
+    statusBoxOuter: {
+        marginTop: 3,
+        marginBottom: 3
+    },
+    status: {
+        flexDirection: 'row',
+        marginLeft: 20,
+        marginRight: 20
+    },
+    count: {
+        fontSize: 20
+    },
+    busHead: {
+        flexDirection: 'row',
+        justifyContent: 'center'
+    },
+    busName: {
+        fontSize: 20,
+        fontWeight: 'bold',
+        paddingTop: 8,
+        paddingLeft: 12
+    },
+    layout: {
+        flex: 1,
+        backgroundColor: 'white',
+        padding: 20
+    },
+    live: {
+        fontSize: 18
+    },
+    liveHead: {
+        fontSize: 18,
+        fontWeight: 'bold'
+    },
+    liveBox: {
+        marginBottom: 30
+    },
+    places: {
+        fontWeight: 17,
+        fontWeight: 'bold'
+    }
+})

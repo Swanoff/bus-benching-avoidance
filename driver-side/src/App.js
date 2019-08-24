@@ -70,7 +70,10 @@ class App extends Component {
       }
       this.setState({
         distance: value,
-        sitting: Math.min(this.state.totalHeadCount>this.state.totalSeats?this.state.totalSeats:this.state.totalHeadCount, this.state.sitting),
+        sitting: Math.min(
+                          this.state.totalHeadCount>this.state.totalSeats ? this.state.totalSeats : this.state.totalHeadCount, 
+                          this.state.sitting
+                         ),
         standing: Math.max(0, this.state.totalHeadCount-this.state.totalSeats),
         estimatedHeadCout: updatedEstimatedHeadCount
       });
