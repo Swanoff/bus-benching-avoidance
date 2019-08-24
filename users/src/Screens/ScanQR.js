@@ -4,6 +4,7 @@ import { StyleSheet, ScrollView,  View, Text, Platform, TouchableOpacity, Linkin
 
 import { CameraKitCameraScreen, } from 'react-native-camera-kit';
 import {Image} from 'react-native-elements';
+import { Actions } from 'react-native-router-flux';
 import route from '../assets/bus-route.png';
 
 export default class ScanQR extends Component {
@@ -17,6 +18,8 @@ export default class ScanQR extends Component {
 
       Start_Scanner: false,
 
+      result: ''
+
     };
   }
 
@@ -29,7 +32,7 @@ export default class ScanQR extends Component {
   onQR_Code_Scan_Done = (QR_Code) => {
 
     this.setState({ QR_Code_Value: QR_Code });
-
+    this.setState({ result: JSON.parse(QR_Code) });
     this.setState({ Start_Scanner: false });
   }
 
@@ -91,6 +94,20 @@ export default class ScanQR extends Component {
             : null
           }
 
+          {this.state.QR_Code_Value.includes("source") ?
+            <View>
+              <Text>Hooray! {this.state.result.distance} points have been added to your Account!</Text>
+              <TouchableOpacity
+                onPress={() => Actions.Rate()}
+                style={styles.rate}>
+                <Text style={{ color: '#FFF', fontSize: 14 }}>
+                  Rate your experience
+                </Text>
+              </TouchableOpacity>              
+            </View>
+            : null
+          }
+
           <TouchableOpacity
             onPress={this.open_QR_Code_Scanner}
             style={styles.button}>
@@ -135,6 +152,13 @@ const styles = StyleSheet.create({
     marginTop: 12
   },
   button: {
+    backgroundColor: '#2979FF',
+    alignItems: 'center',
+    padding: 12,
+    width: 300,
+    marginTop: 14
+  },
+  rate: {
     backgroundColor: '#2979FF',
     alignItems: 'center',
     padding: 12,

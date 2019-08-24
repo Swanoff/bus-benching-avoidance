@@ -8,7 +8,7 @@ class DrawerContent extends Component {
         return (
             <View style={styles.container}>
                 <View style={{backgroundColor: 'black', height: 70}}>
-                    <Text style={styles.hello}>Hello.</Text>
+                    <Text style={styles.hello}>Hello, Surya</Text>
                 </View>
                 <View>
                     <TouchableNativeFeedback onPress={()=>Actions.Home()}>
@@ -19,6 +19,12 @@ class DrawerContent extends Component {
 
                     <View style={styles.divider}></View>
 
+                    <TouchableNativeFeedback>
+                        <View>
+                            <Text style={styles.option}>Profile</Text>
+                        </View>
+                    </TouchableNativeFeedback>
+
                     <TouchableNativeFeedback onPress={()=>Actions.ScanQR()}>
                         <View>
                             <Text style={styles.option}>Scan QR</Text>
@@ -26,7 +32,7 @@ class DrawerContent extends Component {
                     </TouchableNativeFeedback>
                     <TouchableNativeFeedback>
                         <View>
-                            <Text style={styles.option}>Sign In</Text>
+                            <Text style={styles.option}>Sign Out</Text>
                         </View>
                     </TouchableNativeFeedback>
                 </View>

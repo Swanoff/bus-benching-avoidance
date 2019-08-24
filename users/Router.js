@@ -6,6 +6,7 @@ import Home from './src/Screens/Home';
 import Results from './src/Screens/Results';
 import Track from './src/Screens/Track';
 import ScanQR from './src/Screens/ScanQR';
+import Rate from './src/Screens/Rate';
 
 const routerComponent = () => {
     return(
@@ -30,6 +31,10 @@ const routerComponent = () => {
                     <Scene 
                         key='ScanQR'
                         component={ScanQR}
+                    />
+                    <Scene
+                        key='Rate'
+                        component={Rate}
                     />
                 </Scene>
             </Drawer>
