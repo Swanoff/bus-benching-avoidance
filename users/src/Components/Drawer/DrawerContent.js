@@ -19,7 +19,7 @@ class DrawerContent extends Component {
 
                     <View style={styles.divider}></View>
 
-                    <TouchableNativeFeedback>
+                    <TouchableNativeFeedback onPress={()=>Actions.Profile()}>
                         <View>
                             <Text style={styles.option}>Profile</Text>
                         </View>

@@ -7,6 +7,7 @@ import Results from './src/Screens/Results';
 import Track from './src/Screens/Track';
 import ScanQR from './src/Screens/ScanQR';
 import Rate from './src/Screens/Rate';
+import Profile from './src/Screens/Profile';
 
 const routerComponent = () => {
     return(
@@ -35,6 +36,10 @@ const routerComponent = () => {
                     <Scene
                         key='Rate'
                         component={Rate}
+                    />
+                    <Scene 
+                        key='Profile'
+                        component={Profile}
                     />
                 </Scene>
             </Drawer>
