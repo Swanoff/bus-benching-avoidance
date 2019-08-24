@@ -3,6 +3,7 @@ import ReactStoreIndicator from 'react-score-indicator';
 import QRCode from 'qrcode.react';
 import Slider from '@material-ui/core/Slider';
 import { Icon, Button } from 'semantic-ui-react';
+import Switch from "react-switch";
 import firebase from '../src/db/firebase';
 import TicketInput from './Components/Ticket/Input/TicketInput';
 import IssuedTicket from './Components/Ticket/Issued/IssuedTicket';
@@ -48,10 +49,12 @@ class App extends Component {
         Ukkadam: 11,
         Madhukarai: 19,
         Ettimadai: 27 
-      } 
+      },
+      checked: false 
     };
     this.updateLocation = this.updateLocation.bind(this);
     this.setDestination = this.setDestination.bind(this);
+    this.handleChange = this.handleChange.bind(this);
   }
 
   // to track the distance travelled by the bus (by sliding the slider)
@@ -157,6 +160,12 @@ class App extends Component {
     })
   }
 
+  handleChange(checked) {
+    this.setState({
+      checked
+    });
+  }
+
   render() {
     // Location points on slider
     const markers = [{
@@ -196,6 +205,10 @@ class App extends Component {
             <div style={{display: 'flex', margin: '0% 15%', marginBottom: '8%'}}>
               <Icon size='huge' name='bus' color='red' />
               <h1 style={{fontSize: 40, margin: 0}}>{this.state.busName}</h1>
+              <div style={{display: 'flex', flexDirection: 'column', marginLeft: 20}}>
+                <p style={{fontSize: 20, margin: 0}}>GPS</p>
+                <Switch onChange={this.handleChange} checked={this.state.checked} />
+              </div>
             </div>
             <div style={{display: 'flex', justifyContent: 'space-between', margin: '0% 15%'}}>
               <div style={{width: '100%'}}>
@@ -294,26 +307,33 @@ class App extends Component {
   }
 
   issueTicket() {
-    var updatedDropCount = this.state.dropCount;
-    updatedDropCount[this.state.selectedDestination]= updatedDropCount[this.state.selectedDestination]+1;
+    if(!this.state.checked)
+    {
+      alert('Enable GPS to issue tickets!')
+    }
+    else
+    {
+      var updatedDropCount = this.state.dropCount;
+      updatedDropCount[this.state.selectedDestination]= updatedDropCount[this.state.selectedDestination]+1;
 
-    var updatedIssuedTickets = this.state.issuedTickets;
-    updatedIssuedTickets.push(
-      <IssuedTicket 
-        number = {updatedIssuedTickets.length + 1}
-        src = {this.state.currentStop}
-        dest = {this.state.selectedDestination}
-        kms = {this.state.relDistance[this.state.selectedDestination] - this.state.relDistance[this.state.currentStop]}
-      />
-    );
+      var updatedIssuedTickets = this.state.issuedTickets;
+      updatedIssuedTickets.push(
+        <IssuedTicket 
+          number = {updatedIssuedTickets.length + 1}
+          src = {this.state.currentStop}
+          dest = {this.state.selectedDestination}
+          kms = {this.state.relDistance[this.state.selectedDestination] - this.state.relDistance[this.state.currentStop]}
+        />
+      );
 
-    this.setState({
-      sitting: Math.min(this.state.totalHeadCount+1, this.state.totalSeats),
-      standing: Math.max(0, this.state.totalHeadCount+1-this.state.totalSeats),
-      totalHeadCount: this.state.totalHeadCount + 1,
-      dropCount: updatedDropCount,
-      issuedTickets: updatedIssuedTickets
-    })
+      this.setState({
+        sitting: Math.min(this.state.totalHeadCount+1, this.state.totalSeats),
+        standing: Math.max(0, this.state.totalHeadCount+1-this.state.totalSeats),
+        totalHeadCount: this.state.totalHeadCount + 1,
+        dropCount: updatedDropCount,
+        issuedTickets: updatedIssuedTickets
+      }) 
+    }
   }
 }
 
