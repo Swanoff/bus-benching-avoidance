@@ -57,7 +57,7 @@ export default class Profile extends Component {
                     </View>
                     <View style={profile.detailsSingle}>
                         <Text style={profile.details}>Points Earned: </Text>
-                        <Text style={profile.detailsValue}>{this.state.distance+1}</Text>
+                        <Text style={profile.detailsValue}>{this.state.distance+3}</Text>
                     </View>
                 </View>
             </View>

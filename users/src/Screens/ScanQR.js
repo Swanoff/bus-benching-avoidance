@@ -122,14 +122,17 @@ export default class ScanQR extends Component {
                     distance: this.state.result.distance
                   })
               } */}
-              <Text>Hooray! {this.state.result.distance} points have been added to your Account!</Text>
-              <TouchableOpacity
-                onPress={() => Actions.Rate()}
-                style={styles.rate}>
-                <Text style={{ color: '#FFF', fontSize: 14 }}>
-                  Rate your experience
-                </Text>
-              </TouchableOpacity>              
+              <Text style={styles.points}>Hooray! {this.state.result.distance} points have been added to your Account!</Text>
+              <Text style={styles.pointsFeedback}>(Earn +3 points for feedback)</Text>
+              <View style={styles.rateButton}>
+                <TouchableOpacity
+                  onPress={() => Actions.Rate()}
+                  style={styles.rate}>
+                  <Text style={{ color: '#FFF', fontSize: 14 }}>
+                    Rate Now
+                  </Text>
+                </TouchableOpacity>   
+              </View>           
             </View>
             : null
           }
@@ -167,6 +170,7 @@ const styles = StyleSheet.create({
   MainContainer: {
     flex: 1,
     paddingTop: (Platform.OS) === 'ios' ? 20 : 0,
+    padding: 24,
     alignItems: 'center',
     justifyContent: 'center',
     backgroundColor: 'white'
@@ -191,4 +195,14 @@ const styles = StyleSheet.create({
     width: 300,
     marginTop: 14
   },
+  points: {
+    fontSize: 18,
+    marginBottom: 20
+  },
+  pointsFeedback: {
+    textAlign: 'center'
+  },
+  rateButton: {
+    marginLeft: 28
+  }
 });

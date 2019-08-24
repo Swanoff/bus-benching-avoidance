@@ -276,7 +276,7 @@ class App extends Component {
         </div>
 
         {/* Bus Route Image */}
-        <div style={{backgroundImage: `url(${require('./assets/bus_route_qr.png')})`, backgroundSize: 'cover', height: 350, marginBottom: '2%', display: 'flex', flexDirection: 'row-reverse', padding: '5.5% 10%'}}>
+        <div style={{backgroundImage: `url(${require('./assets/bus_route_qr.png')})`, backgroundSize: 'cover', height: 350, marginBottom: '2%', marginTop: '10%', display: 'flex', flexDirection: 'row-reverse', padding: '5.5% 10%'}}>
           <QRCode 
             level='Q'
             style={{height: 170, width: 170}}

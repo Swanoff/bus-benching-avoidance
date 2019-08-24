@@ -48,7 +48,7 @@ export default class Track extends Component {
                         source={require('../assets/bus.jpg')}
                         style={{height: 40, width: 40}}
                     />
-                    <Text style={track.busName}>96A</Text>
+                    <Text style={track.busName}>{this.props.busName}</Text>
                 </View>
 
                 <View style={track.liveBox}>
