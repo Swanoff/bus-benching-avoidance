@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import {View, Text, StyleSheet} from 'react-native';
 import {Image} from 'react-native-elements';
 import firebase, { database } from 'firebase';
+import { max } from 'rxjs/operators';
 
 export default class Track extends Component {
     constructor(props) {
@@ -103,7 +104,7 @@ export default class Track extends Component {
                                                 source={require('../assets/seat.png')}
                                                 style={{height: 40, width: 40}}
                                             />
-                                            <Text style={track.count}>{this.state.Ukkadam}/40</Text>
+                                            <Text style={track.count}>{this.state.Ukkadam>40 ? 40 : this.state.Ukkadam}/40</Text>
                                         </View>
                                         {/* Standing count at Ukkadam */}
                                         <View style={track.status}>
@@ -111,7 +112,7 @@ export default class Track extends Component {
                                                 source={require('../assets/stand.png')}
                                                 style={{height: 40, width: 20}}
                                             />
-                                            <Text style={track.count}>0</Text>
+                                            <Text style={track.count}>{Math.max(0, this.state.Ukkadam-40)}</Text>
                                         </View>
                                     </View>
                                 </View>
@@ -126,7 +127,7 @@ export default class Track extends Component {
                                                 source={require('../assets/seat.png')}
                                                 style={{height: 40, width: 40}}
                                             />
-                                            <Text style={track.count}>{this.state.Madhukarai}/40</Text>
+                                            <Text style={track.count}>{this.state.Madhukarai>40? 40: this.state.Madhukarai}/40</Text>
                                         </View>
                                         {/* Standing count at Ukkadam */}
                                         <View style={track.status}>
@@ -134,7 +135,7 @@ export default class Track extends Component {
                                                 source={require('../assets/stand.png')}
                                                 style={{height: 40, width: 20}}
                                             />
-                                            <Text style={track.count}>0</Text>
+                                            <Text style={track.count}>{Math.max(0, this.state.Madhukarai-40)}</Text>
                                         </View>
                                     </View>
                                 </View>
@@ -155,7 +156,7 @@ export default class Track extends Component {
                                                     source={require('../assets/seat.png')}
                                                     style={{height: 40, width: 40}}
                                                 />
-                                                <Text style={track.count}>{this.state.Madhukarai}/40</Text>
+                                                <Text style={track.count}>{this.state.Madhukarai>40? 40 : this.state.Madhukarai}/40</Text>
                                             </View>
                                             {/* Standing count at Ukkadam */}
                                             <View style={track.status}>
@@ -163,7 +164,7 @@ export default class Track extends Component {
                                                     source={require('../assets/stand.png')}
                                                     style={{height: 40, width: 20}}
                                                 />
-                                                <Text style={track.count}>0</Text>
+                                                <Text style={track.count}>{Math.max(0, this.state.Madhukarai-40)}</Text>
                                             </View>
                                         </View>
                                     </View>
